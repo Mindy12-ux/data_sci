@@ -61,3 +61,5 @@ def processfunc(datas):
     #print(f"총 건수 : {}")
 
 processfunc(inputfunc())
+
+print()
