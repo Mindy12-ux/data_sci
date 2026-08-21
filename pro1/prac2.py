@@ -55,10 +55,12 @@ def processfunc(datas):
     print("소계")
 
     for i in price_by_name:
-        print(f"{i}  : {count_by_name[i]}  소계액 : {amount_by_name[i]}")
+        print(f"{i}  : {count_by_name[i]}건  소계액 : {amount_by_name[i]}원")
 
     print("총계")
-         
+    print(f"총 건수 : {sum(count_by_name.values())}")
+    print(f"총 액 : {sum(amount_by_name.values())}원")
+
 
 processfunc(inputfunc())
 
