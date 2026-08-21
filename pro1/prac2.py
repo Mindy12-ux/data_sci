@@ -58,7 +58,7 @@ def processfunc(datas):
         print(f"{i}  : {count_by_name[i]}  소계액 : {amount_by_name[i]}")
 
     print("총계")
-    #print(f"총 건수 : {}")
+         
 
 processfunc(inputfunc())
 
