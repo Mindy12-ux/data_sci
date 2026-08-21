@@ -55,11 +55,10 @@ def processfunc(datas):
     print("소계")
 
     for i in price_by_name:
-        print(f"{price_by_name.keys() == i}  : {count_by_name[i]}  소계액 : {amount_by_name[i]}")
+        print(f"{i}  : {count_by_name[i]}  소계액 : {amount_by_name[i]}")
 
     print("총계")
     #print(f"총 건수 : {}")
 
 processfunc(inputfunc())
 
-print()
