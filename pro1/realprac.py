@@ -1,48 +1,36 @@
-def inputfunc():
-    datas = [
-        [1, "강나루", 1500000, 2010],
-        [2, "이바다", 2200000, 2018],
-        [3, "박하늘", 3200000, 2005],
-    ]
-    return datas
+def make_login_checker(max_attempts):
+    fail_count_dic = {
 
-def processfunc(datas):
+    } 
 
-    import datetime
+    def fail_counter(name, status):
+        if name not in fail_count_dic:
 
-    curr_year = datetime.datetime.now().year
+            fail_count_dic[name] = 0
+        
+        if status == False and fail_count_dic[name] < max_attempts:
+            fail_count_dic[name] += 1
 
-    for data in datas:
+            return f"{name} : 로그인 실패 ({fail_count_dic[name]} / 3)"
 
-        num, name, base_pay, woking_year = data
+        elif status == True and fail_count_dic[name] == max_attempts:
+                    return f"{name} : 이미 잠긴 계정입니다."
 
-        #calculate bonus
-        if (curr_year - woking_year) <= 3:
-            bonus = 150000
 
-        elif  3 < (curr_year - woking_year) <=8:
-            bonus = 450000
+        elif fail_count_dic[name] == max_attempts:
+            return f"{name} : 계정이 잠겼습니다."
 
+    
         else:
-            bonus = 1000000
+            return f"{name} : 로그인 성공!"
 
+    return fail_counter
 
-        #calculate tax rate
-        if (base_pay + bonus) < 2000000:
-            rate = 0.15
-        elif 2000000 <= (base_pay + bonus) < 3000000:
-            rate = 0.3
-
-        else:
-            rate = 0.5
-        print(name)
-        net_pay = (base_pay + bonus) - (base_pay + bonus) * rate
-
-        data.extend([curr_year-woking_year, bonus, (base_pay + bonus) * rate, net_pay])
-
-    print(datas)
-
-    print("사번    이름    기본급    근무년수    근속수당    공제액    수령액")
-    print("-"*70)
-
-processfunc(inputfunc())
+login_checker_cul = make_login_checker(3)
+print(login_checker_cul("철수", False))
+print(login_checker_cul("철수", False))
+print(login_checker_cul("철수", False))
+print(login_checker_cul("철수", False))
+print(login_checker_cul("철수", True))
+login_checker_youn = make_login_checker(3)
+print(login_checker_youn("영희",True))
