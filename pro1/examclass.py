@@ -1,38 +1,33 @@
 class CoinIn:   # 동전을 넣는 사람 객체
-    #coin = 0
-    #change = 0
+
+    def __init__(self):
+        self.coin = 0
+        self.cupcount = 0
+        self.cupPrice = 200
 
     def culc(self, coin, cupcount):
         self.coin = coin
         self.cupcount = cupcount
-        self.change = self.coin - 200 * cupcount
-        #self.coin = self.change
-        return self.change
+        change = self.coin - self.cupPrice * cupcount
+        return change 
 
 class Machine:
 
     def __init__(self):
-        self.person = CoinIn()
+        self.coin_in = CoinIn()
 
     def showData(self):
 
-        while True:
-            
-            total_coin = int(input("동전을 입력하세요 : "))
-            total_cupcount = int(input("몇 잔을 원하세요 : "))
+        total_coin = int(input("동전을 입력하세요 : "))
+        total_cupcount = int(input("몇 잔을 원하세요 : "))
 
-            total_change = self.person.culc(total_coin, total_cupcount)
+        total_change = self.coin_in.culc(total_coin, total_cupcount)
 
-            if total_change >= 0:
-                print(f"커피 {total_cupcount}잔과 잔돈 {total_change}원")
+        if total_change >= 0:
+            print(f"커피 {total_cupcount}잔과 잔돈 {total_change}원")
 
-            else:
-                print("요금이 부족합니다.")
-
-            self.flag = input("계속 진행할까요? [y/n]")
-            if self.flag == "n":
-                break
-
+        else:
+            print("요금이 부족합니다.")
             
 
 
