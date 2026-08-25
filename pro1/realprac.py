@@ -1,55 +1,69 @@
-# 메소드 오버라이딩을 통한 Polymorphism(다형성) 구현 
-# 카드결제, 현금 결제, 포인트 결제를 각 클래스에서 결제 메소드를 부모에서 오버라이딩하기.
+class Sensor:
 
-# class Payment:  # 부모 클래스 : 결제라는 공통 기능 pay()를 정의
-#     def pay(self, amount):
-#         print(f"{amount}원 결제를 진행합니다")
-#     #   pass 내용없이 만들수도 있다.
+    def __init__(self, name, value):
+        self.name =name
+        self.value = value
 
-# 이하 자식 클래스
-class CardPayment:  # 카드 결제 클래스 : 카드 수수료 2%를 계산하여 결제
+    def measure(self):
+
+        return f"{self.name} : {self.value}"
+
+
+
+class OnboardComputer:
+
     def __init__(self):
-        pass
 
-    def abc():
-        print("CardParment 고유 메소드")
-
-    def pay(self, amount):  # 메소드 오버라이딩 - 필수는 아님
-        fee = amount * 0.02
-        total = amount + fee
-        print(f"[카드 결제]")
-        print(f"상품 금액 : {amount}원")
-        print(f"수수료 : {fee}원")
-        print(f"최종 결제 금액 : {total}원")
-
-class CashPayment:  # 현금 결제 클래스 : 현금 할인 5%를 적용하여 결제
-    def pay(self, amount):
-        discount = amount * 0.05
-        total = amount - discount
-        print(f"[현금 결제]")
-        print(f"상품 금액 : {amount}원")
-        print(f"할인 금액 : {discount}원")
-        print(f"최종 결제 금액 : {total}원")
-
-class PointPayment:    # 포인트 결제 클래스 : 금액만큼 포인트를 사용
-    def pay(self, amount):
-        print(f"[포인트 결제]")
-        print(f"{amount} 포인트를 사용함")
-
-
-# 클래스 공통 처리 함수 : 전달받은 객체의 pay()를 호출
-
-def process_payment(payment_add: Payment, amount:int) -> None:   # payment_add : Payment 타입
-    payment_add.pay(amount)
-
-
-if __name__ == "__main__":
+        self.sensors = [
+            Sensor("온도 센서", 24.5),
+            Sensor("압력 센서", 101.3),
+            Sensor("방사선 센서", 0.02)
     
-    p1 = CardPayment()
-    p2 = CashPayment()
-    #p3 = PointPayment()
+        ]
 
-    process_payment(p1, 10000)
-    print()
-    process_payment(p2, 10000)
-    process_payment(PointPayment(), 10000)
+
+    def check_sensors(self):
+        for sensor in self.sensors:
+            print(sensor.measure())
+
+    # 연료 센서 추가 메소드 생성
+    def fuelSensor(self, name, value):
+        self.sensors.append(Sensor(name, value))
+
+    # 센서명을 입력받아 객체를 반환하는 메소드 추가, self.sensor 리스트의 객체구조 이해하기 
+    def get_sensor(self,name):
+
+        for sensor in self.sensors:
+            if sensor.name == name:
+                return sensor.value
+
+        return None
+        
+
+
+class Spacecraft:
+    def __init__(self, name):
+        self.name = name
+        self.computer = OnboardComputer()
+
+        #새로운 멤버 추가
+        self.mission_name = "지구 관측"
+        self.fuel_ = self.computer.get_sensor("연료량")
+
+    def status(self):
+        print(f"우주선 [{self.name}] 상태")
+        self.computer.check_sensors()
+
+    # 우주선 정보 추가
+    def mission_info(self):
+        self.fuel_ = self.computer.get_sensor("연료량")
+        print(f"우주선 : {self.name} / 임무 : {self.mission_name} / 연료량 : {self.fuel_}")
+
+
+
+spacecraft = Spacecraft("아리랑-1")
+spacecraft.computer.fuelSensor("연료량", "82.5%")
+spacecraft.status()
+print("---------------")
+spacecraft.mission_info()
+print(spacecraft.computer.get_sensor("온도 센서"))
