@@ -1,13 +1,13 @@
 # 메소드 오버라이딩을 통한 Polymorphism(다형성) 구현 
 # 카드결제, 현금 결제, 포인트 결제를 각 클래스에서 결제 메소드를 부모에서 오버라이딩하기.
 
-# class Payment:  # 부모 클래스 : 결제라는 공통 기능 pay()를 정의
-#     def pay(self, amount):
-#         print(f"{amount}원 결제를 진행합니다")
-#     #   pass 내용없이 만들수도 있다.
+class Payment:  # 부모 클래스 : 결제라는 공통 기능 pay()를 정의
+    def pay(self, amount):
+        print(f"{amount}원 결제를 진행합니다")
+    #   pass 내용없이 만들수도 있다.
 
 # 이하 자식 클래스
-class CardPayment:  # 카드 결제 클래스 : 카드 수수료 2%를 계산하여 결제
+class CardPayment(Payment):  # 카드 결제 클래스 : 카드 수수료 2%를 계산하여 결제
     def __init__(self):
         pass
 
@@ -22,7 +22,7 @@ class CardPayment:  # 카드 결제 클래스 : 카드 수수료 2%를 계산하
         print(f"수수료 : {fee}원")
         print(f"최종 결제 금액 : {total}원")
 
-class CashPayment:  # 현금 결제 클래스 : 현금 할인 5%를 적용하여 결제
+class CashPayment(Payment):  # 현금 결제 클래스 : 현금 할인 5%를 적용하여 결제
     def pay(self, amount):
         discount = amount * 0.05
         total = amount - discount
@@ -31,7 +31,7 @@ class CashPayment:  # 현금 결제 클래스 : 현금 할인 5%를 적용하여
         print(f"할인 금액 : {discount}원")
         print(f"최종 결제 금액 : {total}원")
 
-class PointPayment:    # 포인트 결제 클래스 : 금액만큼 포인트를 사용
+class PointPayment(Payment):    # 포인트 결제 클래스 : 금액만큼 포인트를 사용
     def pay(self, amount):
         print(f"[포인트 결제]")
         print(f"{amount} 포인트를 사용함")

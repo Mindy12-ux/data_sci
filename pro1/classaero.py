@@ -58,9 +58,7 @@ class Spacecraft:
 
     # 우주선 정보 추가
     def mission_info(self):
-        print(f"우주선 : {self.name} \
-                임무 : {self.mission_name}\
-                연료량 : {self.fuel_}", sep="")
+        print(f"우주선 : {self.name} / 임무 : {self.mission_name} / 연료량 : {self.fuel_}")
 
 
 
