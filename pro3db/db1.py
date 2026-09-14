@@ -28,9 +28,17 @@ try:
 
     # 자료 보기
     cur.execute("select * from friends")
-    print(cur.fetchone())   # 한 개의 행(레코드) 읽기 : ('홍길동', '111-1111', '서초1동') 결과를 튜플로 반환함
-    print(cur.fetchone())
+    #print(cur.fetchone())   # 한 개의 행(레코드) 읽기 : ('홍길동', '111-1111', '서초1동') 결과를 튜플로 반환함
+    #print(cur.fetchone())   # 다음 자료를 읽음
+    # record pointer가 있는 지점으 자료만 읽는다.
+    print(cur.fetchall()) # 모든 행 읽기 : [('홍길동', '111-1111', '서초1동') ... , 리스트 안에 튜플이 들어있는 형식으로 반환한다.
+    print()
+    cur.execute("select name, addr, phone from friends")    # 먼저 작성한 컬럼부터 나옴
+    print(cur)  # <sqlite3.Cursor object at 0x000001C44686C7C0> 주소가 나옴
 
+    for r in cur:
+        #print(r)
+        print(r[0] + ' ' +r[1]+ ' '+ r[2])  # 홍길동 서초1동 111-1111, 튜플없이 나옴
 
 
 except Exception as e:
