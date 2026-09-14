@@ -27,6 +27,11 @@ try:
     conn.commit()
 
     # 자료 보기
+    cur.execute("select * from friends")
+    print(cur.fetchone())   # 한 개의 행(레코드) 읽기 : ('홍길동', '111-1111', '서초1동') 결과를 튜플로 반환함
+    print(cur.fetchone())
+
+
 
 except Exception as e:
     print("err : ", e)
