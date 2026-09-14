@@ -1,0 +1,460 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dineug/erd-editor/main/json-schema/schema.json",
+  "version": "3.0.0",
+  "settings": {
+    "width": 2000,
+    "height": 2000,
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "originX": -499.9442,
+    "originY": 264,
+    "zoomLevel": 1.2,
+    "show": 431,
+    "database": 1,
+    "databaseName": "test",
+    "canvasType": "ERD",
+    "language": 1,
+    "tableNameCase": 4,
+    "columnNameCase": 2,
+    "bracketType": 1,
+    "relationshipDataTypeSync": true,
+    "relationshipOptimization": false,
+    "columnOrder": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "maxWidthComment": -1,
+    "ignoreSaveSettings": 0
+  },
+  "doc": {
+    "tableIds": [
+      "UXY1vNLisD4BSkf07G7EK",
+      "VRDUZZG6CDZlQDIqHCodd",
+      "SBZX0NkDr3X0hJQSt4MML"
+    ],
+    "relationshipIds": [
+      "cMa4Deu6FzMNxgFq-TmMg",
+      "wd9wvL3eCngPjsi27ul4x"
+    ],
+    "indexIds": [],
+    "memoIds": []
+  },
+  "collections": {
+    "tableEntities": {
+      "VRDUZZG6CDZlQDIqHCodd": {
+        "id": "VRDUZZG6CDZlQDIqHCodd",
+        "name": "buser",
+        "comment": "부서정보",
+        "columnIds": [
+          "9UHDR19Zq6VEWV7yygDgr",
+          "hBkofb5FjtPQDs6LCMwPL",
+          "syRwUU-Ly6jcbq7ZwFMhx"
+        ],
+        "seqColumnIds": [
+          "9UHDR19Zq6VEWV7yygDgr",
+          "hBkofb5FjtPQDs6LCMwPL",
+          "syRwUU-Ly6jcbq7ZwFMhx"
+        ],
+        "ui": {
+          "x": 485.5001,
+          "y": -59.0005,
+          "zIndex": 2,
+          "widthName": 60,
+          "widthComment": 60,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1789346014669,
+          "createAt": 1789098969033
+        }
+      },
+      "UXY1vNLisD4BSkf07G7EK": {
+        "id": "UXY1vNLisD4BSkf07G7EK",
+        "name": "jikwon",
+        "comment": "",
+        "columnIds": [
+          "GX0EWLyRI-IwEbQY5VVYz",
+          "MuPZhJxT9dyLI8SYMo-7Q",
+          "CdU9LTEKbI39ragK3crqm",
+          "rbbYre3xBbF8qIvEMraSz",
+          "BXLjzkgf5y7VYmbTjVDJt"
+        ],
+        "seqColumnIds": [
+          "GX0EWLyRI-IwEbQY5VVYz",
+          "MuPZhJxT9dyLI8SYMo-7Q",
+          "CdU9LTEKbI39ragK3crqm",
+          "rbbYre3xBbF8qIvEMraSz",
+          "BXLjzkgf5y7VYmbTjVDJt"
+        ],
+        "ui": {
+          "x": 931.1664,
+          "y": -131.6662,
+          "zIndex": 37,
+          "widthName": 60,
+          "widthComment": 60,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1789345891933,
+          "createAt": 1789099491439
+        }
+      },
+      "TiL3S0nl8YiAeohZgfLHc": {
+        "id": "TiL3S0nl8YiAeohZgfLHc",
+        "name": "",
+        "comment": "",
+        "columnIds": [],
+        "seqColumnIds": [],
+        "ui": {
+          "x": 557,
+          "y": -9.166666666666668,
+          "zIndex": 92,
+          "widthName": 60,
+          "widthComment": 60,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1789099593232,
+          "createAt": 1789099593232
+        }
+      },
+      "SBZX0NkDr3X0hJQSt4MML": {
+        "id": "SBZX0NkDr3X0hJQSt4MML",
+        "name": "gogek",
+        "comment": "",
+        "columnIds": [
+          "UCxATe1Ly1PyF7rYwoPz-",
+          "CxwGIvoouDsBo665Ppv7B",
+          "c6JqV0cUi4qE9cEvwNN-S",
+          "kuCLKsttl3S43SDxYOQGd"
+        ],
+        "seqColumnIds": [
+          "UCxATe1Ly1PyF7rYwoPz-",
+          "CxwGIvoouDsBo665Ppv7B",
+          "c6JqV0cUi4qE9cEvwNN-S",
+          "kuCLKsttl3S43SDxYOQGd"
+        ],
+        "ui": {
+          "x": 645.7865,
+          "y": 113.3338,
+          "zIndex": 126,
+          "widthName": 60,
+          "widthComment": 60,
+          "color": ""
+        },
+        "meta": {
+          "updateAt": 1789099919130,
+          "createAt": 1789099783552
+        }
+      }
+    },
+    "tableColumnEntities": {
+      "9UHDR19Zq6VEWV7yygDgr": {
+        "id": "9UHDR19Zq6VEWV7yygDgr",
+        "tableId": "VRDUZZG6CDZlQDIqHCodd",
+        "name": "buserno",
+        "comment": "",
+        "dataType": "int",
+        "default": "",
+        "options": 10,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099336408,
+          "createAt": 1789099004896
+        }
+      },
+      "hBkofb5FjtPQDs6LCMwPL": {
+        "id": "hBkofb5FjtPQDs6LCMwPL",
+        "tableId": "VRDUZZG6CDZlQDIqHCodd",
+        "name": "busername",
+        "comment": "",
+        "dataType": "varchar(10)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 61,
+          "widthComment": 60,
+          "widthDataType": 61,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099376919,
+          "createAt": 1789099346000
+        }
+      },
+      "syRwUU-Ly6jcbq7ZwFMhx": {
+        "id": "syRwUU-Ly6jcbq7ZwFMhx",
+        "tableId": "VRDUZZG6CDZlQDIqHCodd",
+        "name": "busertel",
+        "comment": "",
+        "dataType": "varchar(15)",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 61,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099414375,
+          "createAt": 1789099399896
+        }
+      },
+      "GX0EWLyRI-IwEbQY5VVYz": {
+        "id": "GX0EWLyRI-IwEbQY5VVYz",
+        "tableId": "UXY1vNLisD4BSkf07G7EK",
+        "name": "jikwonno",
+        "comment": "",
+        "dataType": "int",
+        "default": "",
+        "options": 10,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099519192,
+          "createAt": 1789099507934
+        }
+      },
+      "MuPZhJxT9dyLI8SYMo-7Q": {
+        "id": "MuPZhJxT9dyLI8SYMo-7Q",
+        "tableId": "UXY1vNLisD4BSkf07G7EK",
+        "name": "jikwonname",
+        "comment": "",
+        "dataType": "varchar(10)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 66,
+          "widthComment": 60,
+          "widthDataType": 61,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099542415,
+          "createAt": 1789099521719
+        }
+      },
+      "CdU9LTEKbI39ragK3crqm": {
+        "id": "CdU9LTEKbI39ragK3crqm",
+        "tableId": "UXY1vNLisD4BSkf07G7EK",
+        "name": "jikwonpay",
+        "comment": "",
+        "dataType": "int",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099556885,
+          "createAt": 1789099552432
+        }
+      },
+      "rbbYre3xBbF8qIvEMraSz": {
+        "id": "rbbYre3xBbF8qIvEMraSz",
+        "tableId": "UXY1vNLisD4BSkf07G7EK",
+        "name": "busernum",
+        "comment": "",
+        "dataType": "int",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 2,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099703588,
+          "createAt": 1789099659108
+        }
+      },
+      "BXLjzkgf5y7VYmbTjVDJt": {
+        "id": "BXLjzkgf5y7VYmbTjVDJt",
+        "tableId": "UXY1vNLisD4BSkf07G7EK",
+        "name": "jikwongen",
+        "comment": "",
+        "dataType": "char(10)",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099733479,
+          "createAt": 1789099726008
+        }
+      },
+      "UCxATe1Ly1PyF7rYwoPz-": {
+        "id": "UCxATe1Ly1PyF7rYwoPz-",
+        "tableId": "SBZX0NkDr3X0hJQSt4MML",
+        "name": "gogekno",
+        "comment": "",
+        "dataType": "int",
+        "default": "",
+        "options": 10,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099805536,
+          "createAt": 1789099797360
+        }
+      },
+      "CxwGIvoouDsBo665Ppv7B": {
+        "id": "CxwGIvoouDsBo665Ppv7B",
+        "tableId": "SBZX0NkDr3X0hJQSt4MML",
+        "name": "gogekname",
+        "comment": "",
+        "dataType": "varchar(10)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 65,
+          "widthComment": 60,
+          "widthDataType": 61,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099823175,
+          "createAt": 1789099806784
+        }
+      },
+      "c6JqV0cUi4qE9cEvwNN-S": {
+        "id": "c6JqV0cUi4qE9cEvwNN-S",
+        "tableId": "SBZX0NkDr3X0hJQSt4MML",
+        "name": "gogektel",
+        "comment": "",
+        "dataType": "varchar(15)",
+        "default": "",
+        "options": 0,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 61,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099834062,
+          "createAt": 1789099823976
+        }
+      },
+      "kuCLKsttl3S43SDxYOQGd": {
+        "id": "kuCLKsttl3S43SDxYOQGd",
+        "tableId": "SBZX0NkDr3X0hJQSt4MML",
+        "name": "gogekdamsano",
+        "comment": "",
+        "dataType": "int",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 2,
+          "widthName": 84,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1789099906756,
+          "createAt": 1789099894358
+        }
+      }
+    },
+    "relationshipEntities": {
+      "cMa4Deu6FzMNxgFq-TmMg": {
+        "id": "cMa4Deu6FzMNxgFq-TmMg",
+        "identification": false,
+        "relationshipType": 4,
+        "startRelationshipType": 2,
+        "start": {
+          "tableId": "VRDUZZG6CDZlQDIqHCodd",
+          "columnIds": [
+            "9UHDR19Zq6VEWV7yygDgr"
+          ],
+          "x": 852.5001,
+          "y": 4.999499999999998,
+          "direction": 2
+        },
+        "end": {
+          "tableId": "UXY1vNLisD4BSkf07G7EK",
+          "columnIds": [
+            "rbbYre3xBbF8qIvEMraSz"
+          ],
+          "x": 931.1664,
+          "y": -43.6662,
+          "direction": 1
+        },
+        "meta": {
+          "updateAt": 1789099659109,
+          "createAt": 1789099659109
+        }
+      },
+      "wd9wvL3eCngPjsi27ul4x": {
+        "id": "wd9wvL3eCngPjsi27ul4x",
+        "identification": false,
+        "relationshipType": 16,
+        "startRelationshipType": 2,
+        "start": {
+          "tableId": "UXY1vNLisD4BSkf07G7EK",
+          "columnIds": [
+            "GX0EWLyRI-IwEbQY5VVYz"
+          ],
+          "x": 1117.1664,
+          "y": 44.3338,
+          "direction": 8
+        },
+        "end": {
+          "tableId": "SBZX0NkDr3X0hJQSt4MML",
+          "columnIds": [
+            "kuCLKsttl3S43SDxYOQGd"
+          ],
+          "x": 1035.7865000000002,
+          "y": 189.3338,
+          "direction": 2
+        },
+        "meta": {
+          "updateAt": 1789099894358,
+          "createAt": 1789099894358
+        }
+      }
+    },
+    "indexEntities": {},
+    "indexColumnEntities": {},
+    "memoEntities": {}
+  }
+}
