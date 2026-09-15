@@ -13,7 +13,7 @@ try:
     print('서버(무한 루핑) 서비스 중 ... ')
 
     while True:
-        conn, addr = serversoc.accept()
+        conn, addr = serversoc.accept() 
         print('client info : ', addr[0],' ', addr[1])
         print(conn.recv(1024).decode())     # 수신 메세지 출력
         # 메세지 송신 to client
