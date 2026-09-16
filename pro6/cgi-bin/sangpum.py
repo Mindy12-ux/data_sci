@@ -15,7 +15,20 @@ config = {
     'port':int(os.getenv('DB_PORT')),     
     'charset':os.getenv('DB_CHARSET')
 }
+
+print("""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 정보</title>
+</head>
+<body>
+    <h2>* 상품 정보 *</h2>""")
+
 conn = None
+
 try:
     conn = MySQLdb.connect(**config)
     cursor = conn.cursor()
@@ -24,10 +37,16 @@ try:
 """)
     
     datas = cursor.fetchall()
-
-    print(datas)
-    print(type(datas))
-
+    print("<table border ='1'>")
+    print("<tr><td>코드</td><td>품명</td><td>수량</td><td>단가</td></tr>")
+    for data in datas:
+        print("<tr>")
+        print(f"<td>{data[0]}</td>")
+        print(f"<td>{data[1]}</td>")
+        print(f"<td>{data[2]}</td>")
+        print(f"<td>{data[3]}</td>")
+        print("</tr>")
+    print("</table>")
 except Exception as e:
     print('오류 : ' + e)
 
@@ -35,5 +54,8 @@ finally:
     if conn:
         conn.close()
 
-# ((1, '장갑', 3, 10000), (2, '벙어리장갑', 2, 12000), (3, '가죽장갑', 10, 50000), (4, '가죽점퍼', 5, 650000), (5, '물티슈', 3, 1000))
-# <class 'tuple'>
+
+print("""
+</body>
+</html>
+""")
