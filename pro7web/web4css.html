@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--인터널 방식 스타일 지정 선언 / body 안의 h1 태그는 모두 해당 스타일로 출력됨-->
+    <style type="text/css">
+        /* css 주석*/
+        h1{ /* 선택자 : tag명 */
+            font-size: 35px;font-family: 궁서;color: green;
+        }
+        h2, b , span{font-size: 10px;background-color: silver;} /* span도 적용 가능*/
+        .c1 {/*선택자 : class명*/
+            color: silver;
+            font-family: 함초롬바탕, 궁서, 돋움, serif, "Time New Roman";
+        }
+
+        #myid1 { /*선택자 : id 명*/
+            color: rgb(231, 2, 155); font-style: italic;}
+    </style> 
+    <!--외부 스타일 시트적용-->
+    <link rel="stylesheet" type="text/css" href="css/pro7.css" />
+
+</head>
+<body>
+<pre>안녕하세요 h2 tag입니다 : 클래스 사용
+html문서에 css 스타일을 적용하는 방법
+1) 인라인 스타일 (한줄 한줄 직접 스타일을 적용해주는 방식) / 우선순위 1등
+2) 내부 스타일 시트 (css로 통일된 스타일을 지정해주는 방식)
+3) 외부 스타일 시트 (css 스타일을 별도의 파일로 만들어 두는 것)       
+</pre>
+<hr>
+*** <b>css</b> 적용하기 ***<br>
+<span style = "background-color: yellow;">인라인 방식</span>(해당 요소에 스타일 직접 지정)
+<h1>인터널 방식(내부에서만 별도의 스타일 지정)</h1>
+<h2>안녕하세요 h2 tag입니다</h2>
+<h1>반가워요</h1>
+
+<p class="c1">클래스 사용1 - class 명은 중복 가능</p>
+<h2 class="c1">안녕하세요 h2 tag입니다 : 클래스 사용</h2>
+<p id="myid1">아이디 사용 - 아이디명은 중복 불가능</p>
+<div id="myid2">아이디 사용 - div에 적용</div>
+
+<p>* 입력 양식 작성*</p>
+<form>
+    <table>
+        <tr>
+            <td>아이디 : </td>
+            <td><input type='text' name='id'></td>
+        </tr>
+        <tr>
+            <td>비밀번호 : </td>
+            <td><input type='text' name='pwd'></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

@@ -1,0 +1,13 @@
+/* 별도의 css 파일을 만들어 두면 여러 개의 html 문서에서 스타일 적용 가능 */
+#myid2 {
+    background-color: yellow; 
+    color: red;
+    font-size: 20px;
+}
+
+
+/* 동적 선택자 */
+/* input:focus{background-color: gainsboro;} */
+/* input:focus{background-color: #3112ff;} */
+/* input:focus{background-color:rgb(100,10,100);} */
+input:focus{background-color: rgb(20%, 10%, 100%);}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    kbs 내의 sbs 내의 aa.html<br>
+    <a href="/pro7web/mbc/bb.html">bb 문서 보기 (상대 경로)</a><br>
+    <hr>
+    <a href="../../web2.html">web2.html</a><br> <!--두 단계 상위 폴더의 파일을 지적-->
+    <a href="/pro7web/web2.html">web2.html</a>
+
+    <hr>
+    -- iframe 연습 --<br> 
+    <!--
+    frame : 웹 브라우저 화면에 html이 렌더링 되는 영역, 하나만 존재
+    iframe : frame 내에 subframe을 만들 수 있다, 한 화면에 여러 개의 html 문서 표현이 가능하다.
+    -->
+    <iframe src="web1.html" width="90%" heigth="150000" style='border :none 'name="tiger">
+    </iframe>
+    <br><br>
+    작성자 : 홍길동
+</body>
+</html>

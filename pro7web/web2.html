@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이미지와 링크</title>
+</head>
+<body>
+    <br>이미지 삽입<br><br>
+    <img src="images/food.jpg" width="400" title="비빔밥" alt="이미지 에러인 경우 대체문자">
+    <br>
+    <img src="https://www.lampcook.com/wi_files/food_top100/top11/11_1_1.jpg">
+    <br>
+    
+    <h3>** a tag(다른 페이지나 주소로 이동하는 링크를 만든다) 연습 **</h3>
+    <!-- <a href='이동할 주소'>화면에 보일 글자(Hyper Text)</a> -->
+    <a href="web1.html">web1 문서 보기</a><br>
+    <a href="web1.html" target="_new">web1 문서 보기(새탭)</a><br>
+    <a href="web1.html" target="_blank">web1 문서 보기(새탭)</a><br>
+    <a href="https://www.kbs.co.kr">kbs 방송 보기</a><br>
+    <a href="web1.html">
+        <img src="images/food.jpg" width="300" /> <!--Hyper Image-->
+    </a><br>
+    <a href="sample.txt">텍스트 문서 보기 : 해석 가능</a><br>
+    <a href="sample.dat">특수 문서 보기 : 해석 불가</a><br>
+
+    <a href="mailto:mell0957@naver.com">민채 이메일</a><br>
+
+    <a href="kbs/sbs/aa.html">aa 문서 보기</a><br>
+    <a href="mbc/bb.html">bb 문서 보기 (상대 경로)</a><br>
+    <a href="/pro7web/mbc/bb.html">bb 문서 보기 (상대 경로)</a><br>
+    <a href="http://127.0.0.1:5500/pro7web/mbc/bb.html">bb 문서 보기 (절대 경로)</a><br><br>
+    <hr>
+    -- iframe 연습 --<br> 
+    <!--
+    frame : 웹 브라우저 화면에 html이 렌더링 되는 영역, 하나만 존재
+    iframe : frame 내에 subframe을 만들 수 있다, 한 화면에 여러 개의 html 문서 표현이 가능하다.
+    -->
+    <iframe src="web1.html" width="90%" heigth="150000" style='border :none 'name="tiger">
+    </iframe>
+    <br><br>
+    <a href="https://www.daum.net" target="tiger">daum 페이지</a><br>
+    <a href="https://www.naver.com" target="tiger">naver 페이지</a><br>
+    <br><br>
+    작성자 : 홍길동
+
+</body>
+</html>
