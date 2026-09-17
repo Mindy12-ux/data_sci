@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>* 반복문 for(초기값;조건;증가값) *</h2>
+    <script>
+        // for(let a= 1; a<= 5; a=a+1){
+        // for(let a= 1; a<= 5; a+=1){
+        // for(let a= 1; a<= 5; ++a){
+        let a = 1;      // 엄밀히 말하면 지역변수이지만, 어디서든 참조 가능함
+        for(let a= 1; a<= 5; a++){      // a는 for문 안의 지역변수임
+            document.write('a 값은 ' + a+ "<br>");
+        
+        }  
+
+        document.write('for 블럭 수행 후 a 값은 ' + a+ "<br>"); // 에러, a는 for문 안의 지역변수임
+
+        document.write("<br>");
+        for (let a = 5; a > 0; a--){   // 증가치가 2
+            document.write("a 값은" + a + "<br>")
+        }
+
+        document.write("<br>다중 for<br>");
+        for (let i = 1; i <= 3; i++){   // 증가치가 1
+            document.write("i 값은 ==> " + i + "일 때,&nbsp;&nbsp;")
+            for (let j = 1; j <= 4; j++){   // 증가치가 1
+            document.write("j 값은 " + j + ",&nbsp;&nbsp;")
+    
+            }
+
+
+        }
+
+        document.write("<br>1~10 까지의 정수의 합<br>")
+        let hap=0;
+        for (let su = 1; su < 11; su++){
+            hap += su;
+            document.write("합은 " + hap + "입니다.<br>");
+        }
+            document.write(hap);
+
+
+        document.write("<br> 1 ~ 100까지의 정수 중 2의 배수이나 5의 배수가 아닌 수의 합 출력")
+        
+        // 참고
+        // == : 느슨한 동등 비교로 타입을 자동 변환한 후에 값만 비교
+        // === : 엄격한 일치 비교로 데이터 타입이 모두 같아야 True를 반환한다
+        document.write("<br>",10 == "10","<br>"); // True, 10을 10으로 자동 변환 후 비교
+        document.write(10 === '10'); // false, type 까지 비교 대상임. W3C는 '==='를 쓰는 것을 권고함.
+
+        let sum = 0;
+        for (let i =1; i<101; i++){
+            // if(i % 2==0 && i % 5 != 0){  =>  비권장
+            if(i % 2===0 && i % 5 != 0){   // 권장
+            sum += i
+        
+            }
+        }
+        document.write("<br>", sum);
+
+        document.write("<hr> 2 ~ 9 구구단 출력 - table에 출력<br>");
+        document.write("<table border ='1'>");
+        
+        for(let a =2; a < 10; a++){
+            document.write("<tr>");
+                for(let b = 1; b <10; b++){
+                    //document.write("<td>");
+                    //document.write(a + "*" + b + "=" + a*b);
+                    //document.write("</td>")
+                    document.write(`<td>${a}*${b} = ${a*b}&nbsp;&nbsp;</td>`); // 템플릿 문자열
+                }           
+                document.write("</tr>")
+        }
+        document.write("</table>")
+
+        // 조건이 참인 경우에만 블럭 내부 코드를 수행함.
+        // 파이썬의 for : 묶음형 자료를 하나씩 뽑아냄
+    </script>
+</body>
+</html>

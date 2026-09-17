@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>** 변수 연습**</h2>
+    <script>
+        // 기본형(원시타입) 변수 - 파이썬과 다르게 변수의 주소가 아닌 값을 기억함
+        var kor; // 전통적인(옛날) 변수 선언 방식. 함수 단위 선언. 같은 이름으로 재선언 가능
+        // var aa; // err x
+
+        let aa;     // 요즘엔 이렇게 씀. EcmaScript6 형식을 따름. 블록 단위. 같은 이름으로 재선언 불가
+        // let aa;  // err o
+        aa= 100;    // 숫자 기억
+        let bb = 20.5;
+        const cc = 300;     // 상수로 선언. 값 수정 불가
+        bb = bb + 10
+        // cc = cc + 10;    // err o, 상수이므로 수정 불가
+        let dd = false;     //Boolean 값
+        let msg = '변수 선언 이해';  // 문자열 기억
+        document.write(aa, " ", bb, " ", cc, " ", dd, " ", msg);
+        document.write("<br>")
+        document.write("type 확인:", typeof(aa), " ",typeof(bb), " ",typeof(dd), " ",typeof(msg),"<br>");
+        //document.write("<br>")
+        document.write("type 확인:", typeof(1), " ",typeof(-1.5), " ",typeof(true), " ",typeof('안녕'), 
+                                    " ",typeof(null), " ",typeof(undefined));
+        
+        document.write("<br>")
+        // 참조형(참조 타입) 변수 - 객체의 주소를 기억함      
+        let kbs = {name:"kbs broadcast"};
+        let mbc = kbs;  // 주소를 치환 (파이썬과 동일)
+        document.write(kbs.name, " ", mbc.name);
+        
+        document.write("<br>")
+        {  // {중괄호 안의 공간 : 독립 영역(블록)을 선언} 변수 scope
+            let v1 = 1;
+            var kk = 50;  // hoisting 발생 : 전역 변수로 인식
+            document.write(v1, " / ", kk, "<br>");
+            {
+                let v2 = 2;
+                document.write(v2, " ", kk);
+                {
+                    let v3 = 3;     // 현재 영역에서만 유효 - 지역 변수
+                    document.write("<br>", v3, " ", kk);
+                    document.write("<br>", v2, " ", v1);
+                }
+
+                // document.write("<br>", v3, " ", kk);  // err : v3가 정의된 영역 밖에서 호출 불가.
+
+            }
+
+        }
+            document.write("<br>", kk);  // var은 전역변수 이건 정상 실행됨
+            // document.write("<br>", v1);  // let은 지역변수, 오류남
+
+    </script>
+    <br><br>
+    <h2>** js 연산자 **</h2>
+    <script>
+        let x = 5, y= 2;
+        document.write(x," ", y);
+        document.write("<br>산술 연산 : ", x+y, " / ", x/y, " / ", x%y);
+        document.write("<br>관계(비교) 연산 : ", x>y, " ",x<y, " ", x<=y, " ", x==y, " ", x!=y);
+        document.write("<br>논리 연산(&&:and, ||:or) : ", x>y && x<=y, " / ",x>y || x<=y);
+        document.write("<br>누적 연산 : ", x, " / ", x = x+1, " / ", x+=1, " / ", ++x);  // 셋 다 같은 의미
+        document.write("<br>삼항 연산 : ", (x>y)?1000:3+4); // 조건이 참이면 콜론(:) 앞의 값, 거짓이면 뒤의 값
+        // 연산자 우선 순위는 python과 동일
+
+        document.write("<br>","a"+"77"+'만세'); // 문자열 더하기
+
+        let e, n, g;
+        e = n = g = 6 + 5; // 할당(치환) 연산 체이닝
+        document.write("<br>",e," / ",n," / ",g);
+        
+
+    </script>
+</body>
+</html>
