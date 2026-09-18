@@ -20,7 +20,97 @@
 
         // <script type ="module"> 하면 'use script'; 자동 적용됨
         
+        function sum0(a, b){  // 함수 이름 o
+            return a+ b;
+        }
+        document.write(sum0(3,4), "<br>");
+        let niceFunc = sum0;
 
+        document.write(niceFunc(3,4));
+
+        let sum1 = function(a,b){   // 함수 이름 x
+            return a+b;
+        }
+        document.write("<br>")
+        document.write(sum1(3,4))
+
+        document.write("<br>")
+        let sum2 = (a, b) => a + b; // 위 함수를 화살표 함수로 표현
+        document.write(sum2(3,4))
+
+        document.write("<br>")
+        let sum3 = (a, b) => {return a + b}; // return을 명시하고 싶으면 중괄호 쓰기
+        document.write(sum3(3,4));
+
+        // let double1 = (n) => {return n * 2.5};
+        let double1 = n => {return n * 2.5};
+        document.write(`<br> 결과는 : ${double1(3)}`);
+
+        let sayHi = () => document.write(`<br>안녕하세요`);
+        sayHi();
+
+        // 삼항 연산자 사용
+        document.write("<hr>")
+        let age = 25;
+        let welcome = (age < 30)? () => document.write(`<br>안녕`):document.write(`<br>반가워`);
+        welcome();
+        // age = 13;
+        // welcome();
+        age = 55;
+        welcome();
+
+        document.write("<br>");
+        let sumFunc = (a, b) => {
+            let result = a+b;
+            return result; 
+        }
+
+        document.write(`<br>두 수의 합은 : ${sumFunc(5,6)}`);
+        
+        document.write("<br>");
+        // 사칙 연산 함수
+        let calcFunc = (a, b, op) => {
+            if(op === '+')  return a + b;
+            else if(op === '-') return a - b;
+            else if(op === '*') return a * b;
+            else if(op === '/') return a / b;
+            else return 0;
+        };
+        document.write(calcFunc(1098,677,'*'));
+        document.write("<br>")
+        // 배열 고차 함수 활용
+        // filter() : 조건에 맞는 데이터 추출
+        // map() : 데이터를 원하는 형태로 반환하는 함수
+        // forEach() : 데이터를 하나씩 반복 처리
+
+        const employees = [
+            {name:"가나다", pay:300},
+            {name:"김치국", pay:350},
+            {name:"박치기", pay:400},
+            {name:"이겨라", pay:500}
+        ];
+
+        // 급여가 300 이상인 직원만 선택
+        const highPay = employees.filter(emp => emp.pay >= 400);
+        document.write(highPay);
+        console.log(highPay)
+
+
+        // const highPay = employees.filter(function(emp){...}) , filter는 파라미터로 함수를 받음
+        // 그래서 예제에서도 emp라는 화살표 함수를 파라미터로 넣어준 것.
+
+        // 급여를 10% 인상
+        // highPay.map : 배열의 각 요소를 하나씩 꺼내서 원하는 형태로 반환함.
+        let result = highPay.map(emp => {
+            name:emp.name,
+            pay:emp.pay,
+            newPay:emp.pay*1.1
+        })
+        console.log(result);
+
+        result.forEach(emp => {
+            document.write(`${emp.name} : 기존 ${emp.pay}만원 -> 인상 ${emp.newPay}만원<br>`);
+        });
 
     </script>
 </body>
