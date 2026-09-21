@@ -21,9 +21,59 @@
             document.querySelector('#btnSend').onclick = chkDataFunc;
             document.querySelector('#btnClear').onclick = clskDataFunc;
         })
+        // target.addEventListener(type, listener, options);, type: 감지할 이벤트 종류, listener: 이벤트가 발생했을 때 
+        // 실행할 콜백 함수 또는 handleEvent 메서드가 있는 객체
 
-        function chkDataFunc(){
-            alert('a');
+        function chkDataFunc(event){
+            // alert('a');
+            event.preventDefault();  // submit 기능 해제
+
+            // 입력 자료 오류 검사 - 아래 검사 후 이상이 없으면 서버로 자료 전송
+            if(frm.name.value === "" || isNaN(frm.name.value) === false){
+                // is NaN('123') : false, isNaN('abc') : true  -- 숫자가 아닌지 검사
+                frm.name.focus();   // frm.name으로 커서를 이동
+                alert('이름을 입력하시오. 문자만 허용');
+                return;   // 함수 탈출
+            }
+
+            if(frm.id.value.length < 3){
+                frm.id.focus();
+                alert('아이디는 3글자 이상 입력하세요')
+                return;
+            }
+
+            // 정규 표현식
+            let re_str = '123Abc가나다라3243강아지1 hello world my name is 길동';
+            console.log(re_str.match(/[1]/));
+            console.log(re_str.match(/[1]/g));  // g : global - ['1', '1']
+            console.log(re_str.match(/[0-9]/g));  // 숫자만 - ['1', '2', '3', '3', '2', '4', '3', '1']
+            console.log(re_str.match(/\d/g));  // 결과 위와 동일
+            console.log(re_str.match(/\D/g));  // 숫자를 제외한 모든 문자열
+            console.log(re_str.match(/[가나]/g)); 
+            console.log(re_str.match(/\w/g));
+            console.log(re_str.match(/\W/g));
+            console.log(re_str.match(/\d{2}/g));   // 숫자 2글자 묶음만
+            console.log(re_str.match(/\d{2, 3}/g));   // 숫자 2글자 또는 3글자 묶음만 
+
+            // email에 입력 자료 검색
+            let email_regex = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
+            if(!frm.email.value.match(email_regex)){        // 앞에 '!'를 붙이면 부정
+                frm.email.focus();
+                alert('email 형식에 맞게 입력하세요');
+                return;
+            }
+
+            // 나이
+            let age_regex = /^[0-9]{1,2}$/;  // ^ : 뒤의 문자로 문자열이 시작, $ : 앞의 문자로 문자열이 끝 
+            if(!frm.age.value.match(age_regex)){        // 앞에 '!'를 붙이면 부정
+                frm.age.focus();
+                alert('나이는 숫자만 입력하세요');
+                return;
+            }
+
+            frm.action ="my.py";
+            frm.method="get";
+            frm.submit();   // 입력자료 검사 후 이상이 없으면 서버로 자료 전송
         }
 
         function clskDataFunc(){
@@ -45,7 +95,7 @@
     </tr>
     <tr>
         <td>아 이 디</td>
-        <td><input type ='text' name ='id' id= 'id' placeholder="3글자 이상"/></td>
+        <td><input type ='text' name ='id' id= 'id' placeholder="3글자 이상" value = 'good'/></td>
     </tr>
     <tr>
         <td>이 메 일</td>
