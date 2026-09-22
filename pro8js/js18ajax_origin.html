@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = () => {
+            document.querySelector("#btnGet").onclick = getFunc;
+            document.querySelector("#btnPost").onclick = postFunc;
+        }
+
+        let xhr;
+
+        function getFunc(){
+            const irum = frm.name.value;
+            const nai = frm.age.value;
+            // alert(irum + " " + nai);
+
+            // 브라우저에서 웹서버와 비동기 통신(AJAX)을 위한 객체를 생성
+            xhr = new XMLHttpRequest();  // 비동기 처리를 가능하게 함. 
+            // let fname = 'js18.py';  // 이때의 js18.py는 파일명이 아니라 '요청명'임. 단지 요청명이 파일명과 일치할 뿐
+            let fname = 'js18.py?irum='+irum+'&nai='+nai;
+            xhr.open('GET', fname, true);  // true: 비동기, false: 동기
+
+            xhr.onreadystatechange = function(){
+                // alert(xhr.readyState);
+                /*
+                if(xhr.readyState === 4){
+                    alert(xhr.status);
+                }
+                */
+
+                if(xhr.readyState === 4 && xhr.status === 200){
+                    // 웹서버에 요청이 성공한 상태로 결과를 기다린다
+                    process1();
+                }
+            }
+            xhr.send();
+        }  
+        
+        function process1(){
+            // alert('ok');
+            // alert(xhr.responseText);
+            document.querySelector("#show").innerText = xhr.responseText;
+
+        }
+
+        // 현재 Live 서버를 사용하고 있기 때문에 POST 방식은 실습할 수 없다. 에러 남
+        function postFunc(){
+
+            const irum = frm.name.value;
+            const nai = frm.age.value;
+
+            
+            xhr = new XMLHttpRequest(); 
+            let fname = 'js18.py';   // 전송시 값 전달할 때 여기서 주지 않음
+            xhr.open('POST', fname, true); 
+
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4 && xhr.status === 200){
+                    process2();
+                }
+            }
+
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            xhr.send("irum=" + irum + "&nai=" + nai);
+
+        }
+
+        function process2(){     
+            alert(xhr.responseText);
+
+        }
+
+    </script>
+</head>
+<body>
+    <h2>Ajax 이해</h2>
+    <form name="frm">
+        이름 : <input type="text" name="name" value="tom"><br>
+        나이 : <input type="text" name="age" value="33"><br>
+        <input type="button" value="get방식" id="btnGet">
+        <input type="button" value="post방식" id="btnPost">
+    </form>
+    <hr>
+    <div id ='show'></div>
+</body>
+</html>

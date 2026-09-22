@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // 버튼을 눌렀을 때 실행할 이벤트 설정
+        window.onload = () => {
+            document.querySelector("#btn").onclick = funcAxios;
+        }
+
+        // 출력 함수 선언
+        function showData(data){
+            let output = '<table border="1">';
+            output += '<tr><td>고객명</td><td>고객전화</td><td>성별</td></tr>';
+
+            data.forEach(item => {
+                output += `
+                    <tr>
+                        <td>item.name</td>
+                        <td>item.tel</td>
+                        <td>item.gender</td>
+                    </tr>
+                `;
+            });
+
+            output += '</table>'
+            document.querySelector("#result").innerHTML = output;
+        }
+
+
+        // Axios 방식으로 데이터 불러오기
+        async function funcAxios(){
+
+            // 출력 공간 지정
+            const result = document.querySelector("#result");
+
+            try{
+                const response = await fetch('gogekdata.py');
+                console.log('axios response', response)
+
+                if(!response.ok){
+                    throw new Error(`오류`)
+                }
+
+                const data = await response.json();
+                if(!Array.isArray(data)){
+                    throw new Error('배열이 아님')
+                }
+
+                showData(data);
+
+
+            }catch(error){
+                result.innerHTML = '오류 발생 : ' + error.message;                
+            }finally{
+                console.log("작업 종료");
+            }
+        }
+    
+    </script>
+</head>
+<body></body>
+<button id="btn">관리 고객 출력</button>
+    <hr>
+    <div name = 'result'></div>
+</body>
+</html>
