@@ -1,75 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>관리 고객 출력</title>
+    <style>
+        .man{color: yellow;}
+        .woman{color: blue;}
+    </style>
+
     <script>
-        // 버튼을 눌렀을 때 실행할 이벤트 설정
-        window.onload = () => {
-            document.querySelector("#btn").onclick = funcAxios;
-        }
+        window.onload = function () {
+            document.getElementById("btnShow").onclick = showCustomers;
+        };
 
-        // 아이디/ 비번 검증 함수
+        async function showCustomers() {
+            const id = document.getElementById("userid").value;
+            const password = document.getElementById("password").value;
+            const result = document.getElementById("result");
 
-        function getFunc(){
+            if (id !== "python" || password !== "123") {
+                result.innerHTML = "아이디 또는 비밀번호가 틀렸습니다.";
+                return;
+            }
 
-        }
+            try {
+                const response = await fetch("gogekdata.json", {
+                    method: "GET"
+                });
 
-        // 출력 함수 선언
-        function showData(data){
-            let output = '<table border="1">';
-            output += '<tr><td>고객명</td><td>고객전화</td><td>성별</td></tr>';
-
-            data.forEach(item => {
-                output += `
-                    <tr>
-                        <td>${item.name}</td>
-                        <td>${item.tel}</td>
-                        <td>${item.gender}</td>
-                    </tr>
-                `;
-            });
-
-            output += '</table>'
-            document.querySelector("#result").innerHTML = output;
-        }
-
-        // Axios 방식으로 데이터 불러오기
-        async function funcAxios(){
-
-            // 출력 공간 지정
-            const result = document.querySelector("#result");
-
-            try{
-                const response = await axios.get('gogekdata.py');
-                console.log('axios response', response)
-                const data = response.data;
-
-                if(!Array.isArray(data)){
-                    throw new Error(`JSON 데이터가 배열이 아님`)
+                if (!response.ok) {
+                    throw new Error("HTTP 오류: " + response.status);
                 }
 
-                showData(data);
+                const customers = await response.json();
 
+                let output = `
+                    <table>
+                        <tr>
+                            <th>고객명</th>
+                            <th>고객전화</th>
+                            <th>성별</th>
+                        </tr>
+                `;
 
-            }catch(error){
-                result.innerHTML = '오류 발생';
-            }finally{
-                console.log("fetch 작업 종료");
+                customers.forEach(function (customer) {
+                    const colorClass =
+                        customer.gender === "남" ? "man" : "woman";
+
+                    output += `
+                        <tr>
+                            <td class="${colorClass}">${customer.name}</td>
+                            <td>${customer.tel}</td>
+                            <td>${customer.gender}</td>
+                        </tr>
+                    `;
+                });
+
+                output += "</table>";
+                result.innerHTML = output;
+
+            } catch (error) {
+                result.innerHTML = "에러 발생 : " + error;
             }
         }
-    
     </script>
 </head>
 <body>
-    <h2>직원정보 출력</h2>
-    <form name="frm">
-        ID : <input type="text" name="id" ><br>
-        PWD : <input type="text" name="pwd" ><br>
-    </form>
-    <button id="btn">관리 고객 출력</button>
-    <div id = 'result'></div>
+<h2>직원정보 입력</h2>
+아이디 : <input type="text" id="userid"><br>
+비밀번호 : <input type="password" id="password"><br>
+<button id="btnShow">관리 고객 출력</button>
+<br>
+<b>id: python / pwd: 123</b>
+<div id="result"></div>
 </body>
 </html>
