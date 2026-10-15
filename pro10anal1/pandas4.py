@@ -70,3 +70,63 @@ def summaryFunc(gr):
 print(datas.apply(summaryFunc)) # apply : 함수 실행용 함수
 print()
 
+print('\nmerge : DataFrame 객체 병합 - 공통 칼럼 기준(RDBMS의 join과 유사)')
+df1 = pd.DataFrame({'data1':range(7), 'key':['b','b','a','c','a','a','b']})
+print(df1)
+df2 = pd.DataFrame({'key':['a', 'b', 'd'], 'data2':range(3)})
+print(df2)
+print()
+print(pd.merge(df1, df2, on='key')) # 교집합, 양쪽에 모두 존재하는 키만 이용해서 두 데이터 프레임을 merge (sql의 inner join과 유사)
+print()
+print(pd.merge(df1, df2, on='key', how='inner')) # 교집합 (sql의 inner join과 유사)
+print()
+print(pd.merge(df1, df2, on='key', how='outer')) # sql의 full outer join과 유사(대응 인자가 없으면 결측치 처리)
+print()
+print(pd.merge(df1, df2, on='key', how='left')) # 교집합, 양쪽에 모두 존재하는 키만 이용해서 두 데이터 프레임을 merge (sql의 inner join과 유사)
+print()
+print(pd.merge(df1, df2, on='key', how='right')) # 교집합, 양쪽에 모두 존재하는 키만 이용해서 두 데이터 프레임을 merge (sql의 inner join과 유사)
+
+print()
+df3 = pd.DataFrame({'key2':['a', 'b', 'd'], 'data2':range(3)})
+print(df3)
+print(df1)
+print(pd.merge(df1, df3, left_on='key', right_on='key2'))
+
+print()
+print('---- concat : 그냥 상하좌우로 붙이기만 함, 공통 칼럼 필요 없음-----')
+print(pd.concat([df1, df3], axis=0))    # 행단위, 아래로 붙이기
+print()
+print(pd.concat([df1, df3], axis=1))    # 열단위, 옆으로 붙이기
+
+print('\nPIVOT 연산 : pivot과 groupby 명령의 중간적 성격')
+# pivot : 데이터 열 중에서 두 개의 열(key)을 사용해 데이터의 행렬을 재구성
+data = {
+    'city':['강남', '강북','강남', '강북'],
+    'year':[2000, 2001, 2002, 2002],
+    'pop':[3.3, 2.5, 3.0, 2.0]
+}
+df = pd.DataFrame(data)
+print(df)
+print(df['pop'].describe())
+print()
+print(df.pivot_table(index=['city']))   # agggfunc 값을 안주면 기본값이 mean.
+print(df.pivot_table(index=['city'], aggfunc='mean'))
+print(df.pivot_table(index=['city', 'year'], aggfunc=[len, 'sum']))
+print()
+print(df.pivot_table(index=['city'], values='pop'))  
+print(df.pivot_table(index=['city'], values='pop', aggfunc='mean')) # 위와 상동, 기본 agg가 mean
+print(df.pivot_table(index=['city'], values='pop', aggfunc=len))
+print()
+# pivot tavble을 이요한 구조 재구성 ==> year:행, city:열, pop:계산값
+print(df.pivot_table(index=['year'], values='pop', columns=['city']))
+print(df.pivot_table(index=['year'], values='pop', columns=['city'], margins=True))
+print(df.pivot_table(index=['year'], values='pop', columns=['city'], margins=True, fill_value=0))
+
+print()
+hap = df.groupby(['city'])
+print(hap.sum())
+print(df.groupby(['city']).sum())
+print(df.groupby(['city']).mean())
+
+
+
