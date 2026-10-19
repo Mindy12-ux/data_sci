@@ -48,4 +48,15 @@ print(f"{year}년 {month}월 {day}일 {hour}시")
 for local in weather.findall('local'):    # find로 weather 아래의 local 태그 찾기
     name = local.text.strip()   # 지역명(태그 안에 문자열)
     desc = local.get('desc')    # 온도(요소의 ta 속성값)
-    print(f"{name} 지역 날씨는 {desc}")
+    ta = local.get('ta')
+    print(f"{name} 지역 날씨는 {desc} 온도는 {ta}")
+
+
+
+
+
+
+
+
+
+
