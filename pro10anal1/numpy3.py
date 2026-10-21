@@ -7,6 +7,7 @@ print(aa)
 
 bb = np.c_[aa, aa[2]]   # 2열과 동일한 열 추가
 print('bb :\n', bb)
+print(aa[2], [aa[2]])
 
 cc = np.r_[aa, [aa[2]]]   # 2행과 동일한 행 추가
 print('cc :\n', cc)

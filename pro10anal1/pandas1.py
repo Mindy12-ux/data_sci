@@ -139,8 +139,8 @@ data = {
 fr = pd.DataFrame(data)
 print(fr)
 
-result1 = Series(x.split()[0] for x in fr.juso)
-result2 = Series(x.split()[1] for x in fr.juso)
-print(result1)
-print(result2)
-print(result1.value_counts())
+# result1 = Series(x.split()[0] for x in fr.juso)
+# result2 = Series(x.split()[1] for x in fr.juso)
+# print(result1)
+# print(result2)
+# print(result1.value_counts())
