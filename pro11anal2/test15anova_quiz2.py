@@ -70,5 +70,5 @@ tukResult = pairwise_tukeyhsd(endog=data['jikwonpay'], groups=data['busername'])
 print(tukResult)  
 
 # 시각화
-tukResult.plot_simultaneous(xlabel='연봉', ylabel='부서')
+tukResult.plot_simultaneous(xlabel='연봉 평균', ylabel='부서명')
 plt.show()
