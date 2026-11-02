@@ -55,4 +55,3 @@ columns_select = '+'.join(iris.columns.difference(['sepal_length', 'species', 's
 print(columns_select)   # petal_length+petal_width
 result3 = smf.ols(formula='sepal_length ~' + columns_select, data=iris).fit()
 print(result3.summary())
-
