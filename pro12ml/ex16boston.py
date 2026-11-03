@@ -18,6 +18,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import koreanize_matplotlib
 from sklearn.metrics import r2_score
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
@@ -58,4 +59,21 @@ y_quad_fit = model.predict(quad.fit_transform(x_fit))
 q_r2 = r2_score(y, model.predict(x_quad))
 print('q_r2 : ', q_r2)  # 2차 다항회귀 설명력 : 0.640716
 
+
 # 다항회귀(3차)
+model.fit(x_cubic, y)
+y_cubic_fit = model.predict(cubic.fit_transform(x_fit))
+c_r2 = r2_score(y, model.predict(x_cubic))
+print('c_r2 : ', c_r2)
+
+# 시각화
+plt.scatter(x, y, label='초기 데이터')
+plt.plot(x_fit, y_lin_fit, linestyle=':', label='linear fit(d=1), $R^2=%.2f$'%model_r2, lw=3, c='b')
+plt.plot(x_fit, y_quad_fit, linestyle='-', label='quad fit(d=2), $R^2=%.2f$'%q_r2, lw=3, c='r')
+plt.plot(x_fit, y_cubic_fit, linestyle='--', label='cubic fit(d=3), $R^2=%.2f$'%c_r2, lw=3, c='k')
+plt.xlabel('하위계층비율')
+plt.ylabel('주택가격')
+plt.legend()
+plt.show()
+
+
