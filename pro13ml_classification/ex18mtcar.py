@@ -47,8 +47,9 @@ print('분류 정확도 : ', (16 + 10) / len(mtcar)) # 0.8125, '81.25%의 정확
 print('분류 정확도 : ', (conf_tab[0,0] + conf_tab[1,1]) / len(mtcar))
 
 # 현재 모델의 분류 정확도 확인 방법 2) Accuracy score(실제값, 예측값) 이용
-from sklearn.metrics import accuracy_score
 pred2 = result.predict(mtcar)
+
+from sklearn.metrics import accuracy_score
 print('분류 정확도 : ', accuracy_score(mtcar['am'], np.around(pred2)))  # 0.8125
 
 print('**' * 10)
