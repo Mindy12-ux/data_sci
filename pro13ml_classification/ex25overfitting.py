@@ -3,7 +3,6 @@
 # k-fold : 안정적인 모델 평가 가능
 # GridSearchCV : 최적의 하이퍼파라미터 검색
 
-
 # iris dataset 사용
 
 from sklearn.datasets import load_iris
@@ -56,9 +55,78 @@ print('iris shape : ', features.shape)      # (150, 4)
 n_iter = 0
 
 for train_index, test_index in kfold.split(features):
-    print('n_iter(반복수):', n_iter)
-    print('train_index:', train_index)
-    print('test_index:', test_index)
+    # print('n_iter(반복수):', n_iter)
+    # print('train_index:', train_index)
+    # print('test_index:', test_index)
+    # n_iter += 1
+    xtrain, xtest = features[train_index], features[test_index]
+    ytrain, ytest = label[train_index], label[test_index]       # validation data
+
+    # 학습 및 예측
+    df_clf2.fit(xtrain, ytrain)     # train으로 학습
+    pred = df_clf2.predict(xtest)   # 모델 생성을 위한 학습 도중에 검증하기 - 검증 목적
     n_iter += 1
+    #반복할 때마다 정확도 출력
+    acc = np.round(accuracy_score(ytest, pred), 5)
+    train_size = xtrain.shape[0]
+    test_size = xtest.shape[0]
+    print(f'반복수 : {n_iter}, 교차검증 정확도 : {acc}, \
+            학습 데이터 크기 : {train_size}, 검증 데이터 크기 : {test_size}')
+    print(f'반복수:{n_iter}, 검증 데이터 인덱스 : {test_index}')
 
+    cv_acc.append(acc)
 
+print('cv_acc : ', np.array(cv_acc).astype(float))
+print('평균 검증 정확도 : ', np.mean(cv_acc))
+
+# 참고 : StratifiedKFold - 불균형힌 분포도를 가진 레이블 데이터 집합을 처리하기 위한 KFold 방식
+# 대출 사기 데이터처럼 대부분은 정상, 사기 레이블은 극히 일부인 경우 사용.
+
+print('\n과적합 방지 목적 처리 2-1 : 교차 검증 단순화 함수 사용')
+from sklearn.model_selection import cross_val_score
+data = iris.data
+label = iris.target
+
+score = cross_val_score(df_clf2, features, label, cv=5)
+print('교차 검증별 정확도 : ', np.round(score, 3))
+print('평균 검증 정확도 : ', np.round(np.mean(score), 3))
+
+print()
+
+print('\n과적합 방지 목적 처리 3 : GridSearchCV')
+# 과적합 방지 간접 방법
+# 최적의 파라미터 찾기(내부적으로 KFold를 사용해 과적합을 줄이는데 도움을 준다)
+from sklearn.model_selection import GridSearchCV
+# DecisionTreeClassifier(
+#     (*, criterion: Literal['gini', 'entropy', 'log_loss'] = "gini", splitter: Literal['best', 'random'] = "best", 
+#     max_depth: Int | None = None, min_samples_split: float = 2, min_samples_leaf: float = 1, min_weight_fraction_leaf: Float = 0, 
+#     max_features: float | Literal['auto', 'sqrt', 'log2'] | None = None, random_state: Int | RandomState | None = None, 
+#     max_leaf_nodes: Int | None = None, min_impurity_decrease: Float = 0, class_weight: Mapping | str | Sequence[Mapping] | None = None, 
+#     ccp_alpha: float = 0)
+# )
+# 편의상 일부 파라미터만 사용
+# max_depth : 노드의 최대 깊이
+# min_samples_split :노드 분할을 위한 최소한의 샘플수 (과적합 제어와 관련)
+
+parameters = {'max_depth':[1,2,3], 'min_samples_split':[2,3]}
+grid_dtree = GridSearchCV(estimator=df_clf2, param_grid=parameters, cv=3, refit=True)
+grid_dtree.fit(x_train, y_train)
+# 내부적으로 복수 개의 모형을 생성하고, 이를 실행시켜 최적의 파라미터를 찾아줌
+
+import pandas as pd
+scores_df = pd.DataFrame(grid_dtree.cv_results_)    # 결과를 dataframe에 저장
+print(scores_df)
+
+print('GridSearchCV 최적 파라미터 : ', grid_dtree.best_params_)
+print('GridSearchCV 최적 정확도 : ', grid_dtree.best_score_)
+# GridSearchCV 최적 파라미터 :  {'max_depth': 3, 'min_samples_split': 2}
+# GridSearchCV 최적 정확도 :  0.9238095238095237
+
+# 추천된 파라미터로 최적의 모델을 생성 (직접 생성 또는 best_estimator_ 사용)
+bestModel = grid_dtree.best_estimator_
+print(bestModel)
+best_pred = bestModel.predict(x_test)
+print('예측 결과 : ', best_pred)
+print('정확도 : ', accuracy_score(y_test, best_pred))   # 0.9555
+
+# 과적합 방지 방법 기타 : 불필요한 변수 제거, 정규화(L1, L2), 학습 데이터 증가, 조기종료 ... 
