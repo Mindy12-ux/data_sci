@@ -65,7 +65,8 @@ votingModel = VotingClassifier(
 named_models = [('LR', logi), ('KNN', knn), ('DT', tree)]
 for name, clf in named_models:
     clf.fit(x_train, y_train)
-    pred = clf.predict(x_test)
+
+    pred = clf.predict(x_test)  
     print(f'{name} 정확도 : {accuracy_score(y_test, pred):.4f}')
 # LR 정확도 : 0.9912
 # KNN 정확도 : 0.9737
