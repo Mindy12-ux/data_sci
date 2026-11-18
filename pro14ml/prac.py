@@ -46,9 +46,3 @@ r2 = r2_score(y_test, pred)
 print(result.head(10))
 print('결정계수:', r2)
 
-
-
-
-
-
-
