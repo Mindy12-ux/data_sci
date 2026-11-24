@@ -7,6 +7,7 @@ import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 import matplotlib.pyplot as plt
+import koreanize_matplotlib
 from sklearn.metrics import r2_score
 
 # 데이터 : feature, label은 2차원 형태로 입력
@@ -16,6 +17,7 @@ ydata = np.array([1.2, 2.0, 3.0, 3.5, 5.5], dtype='float32').reshape(-1,1)
 print('상관계수 : ', np.corrcoef(xdata.ravel(), ydata.ravel()))     #  0.97494708
 
 # numpy 배열을 PyTorch Tensor로 변환
+# x_tensor = torch.tensor(xdata, dtype=torch.float32, requires_grad=True), requires_grad=True 생략 가능(nn.Linear() 내부에 이미 설정됨)
 x_tensor = torch.tensor(xdata, dtype=torch.float32)
 y_tensor = torch.tensor(ydata, dtype=torch.float32)
 
@@ -54,9 +56,23 @@ for epoch in range(epochs):
     indices = torch.randperm(len(x_tensor))     # x_data 인덱스를 무작위 순서로 섞는다.
     total_loss = 0
 
-    for idx in indices:     # batch_size = 1 이므로 한 개씩 꺼냄 
-        x_batch = x_tensor[idx].unsqueeze(0)    # [...] -> [[...]]
-        y_batch = y_tensor[idx].unsqueeze(0)
+    # for idx in indices:     # batch_size = 1 이므로 한 개씩 꺼냄 
+    #     x_batch = x_tensor[idx].unsqueeze(0)    # [...] -> [[...]]
+    #     y_batch = y_tensor[idx].unsqueeze(0)
+    for i in range(0, len(x_tensor), batch_size):
+        # batch_size 만큼 인덱스를 슬라이싱
+        batch_indices = indices[i:i+batch_size]
+
+        x_batch = x_tensor[batch_indices]
+        y_batch = y_tensor[batch_indices]
+
+        # 첫 번째 epoch에서 배치 구성 확인하기 (batch_size 만큼 데이터가 묶여서 처리된다.)
+        if epoch == 0:
+            print('batch_indices : ', batch_indices)
+            print('x_batch : ', x_batch)
+            print('y_batch : ', y_batch)
+            print('x_batch_shape : ', x_batch.shape)
+            print('----------------------------------')
 
         pred = model(x_batch)               # 1) 예측값 계산 : 내부적으로 weight * x + bias 계산
         loss = criterion(pred, y_batch)     # 2) 손실값 계산(틀린정도)
@@ -84,3 +100,21 @@ print('real : ', ydata.ravel())
 
 print('결정계수 : ', r2_score(ydata, pred))
 
+# 시각화
+plt.scatter(xdata, ydata, color='r', marker='o', label='실제 데이터')
+plt.plot(xdata, pred, 'b--', label='예측 회귀선')
+plt.xlabel('feature')
+plt.ylabel('label')
+plt.legend()
+plt.show()
+
+print()
+# 새로운 값으로 예측(추론 단계)
+new_x = np.array([1.5, 5.7, -3.0], dtype='float32').reshape(-1, 1)  # 입력 형태 맞춰주기
+new_x_tensor = torch.tensor(new_x, dtype=torch.float32)
+
+with torch.no_grad():   # 학습이 끝난 상태이므로 역전파 X
+    new_pred_tensor = model(new_x_tensor)
+
+new_pred = new_pred_tensor.numpy()
+print('새값 예측 결과 : ', new_pred.ravel())
