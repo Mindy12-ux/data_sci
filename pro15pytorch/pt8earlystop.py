@@ -347,3 +347,57 @@ plt.axis('equal')
 plt.legend()
 plt.grid(alpha=0.3)
 plt.show()
+
+# 잔차 분포 시각화(잔차가 정규분포를 따르고 있는 것을 확인할 수 있다.)
+residual = actual - pre
+plt.figure(figsize=(8, 4))
+sns.histplot(residual, bins=20, kde=True)
+plt.axvline(x=0, color='red', linestyle='--')
+plt.xlabel('잔차')
+plt.ylabel('빈도수')
+plt.title('잔차 분포')
+plt.grid(alpha=0.3)
+plt.show()
+
+# 최적 모델의 파라미터가 복원된 상태이므로 모델 저장 후 읽기 -------
+model_path='./mpg_bestmodel.pth'
+torch.save(model.state_dict(), model_path)
+print('최적 모델 저장 완료 : ', model_path)
+
+# 저장된 모델 읽기
+loaded_model = MpgModel()   # 저장 시 사용한 모델과 동일한 구조를 가진 객체를 먼저 생성한다.
+
+loaded_model.load_state_dict(torch.load(model_path, weights_only=True, map_location='cpu'))
+
+# 예측을 위해 평가 모드로 전환
+loaded_model.eval()
+print('loaded_model : ', loaded_model)
+
+# 기존 데이터로 예측
+loaded_model.eval()
+with torch.no_grad():
+    pred_5 = loaded_model(x_test[:5])
+
+print('예측값 : ', pred_5.numpy().ravel())
+print('실제값 : ', y_test[:5].ravel())
+
+print()
+# 새로운 데이터로 예측
+new_data = pd.DataFrame({
+    'horsepower':[111, 155],
+    'weight':[2222, 4444]
+})
+# 학습시 표준화를 했으므로 새 자료도 표준화
+new_st_data = stdscale_func(new_data)
+print('표준화 결과 : ', new_st_data)
+# 텐서로 변환
+new_tensor = torch.tensor(new_st_data.values, dtype=torch.float32)
+
+loaded_model.eval()
+with torch.no_grad():
+    new_pred = loaded_model(new_tensor)
+print('새 값 예측 결과 : ', new_pred.numpy().ravel())
+
+# 새로운 데이터와 예측 결과를 함께 출력
+new_data['예측연비(mpg)'] = new_pred.numpy().ravel()
+print(new_data)
