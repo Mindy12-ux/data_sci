@@ -48,8 +48,211 @@ x_train_scaled = scaler.fit_transform(x_train).astype(np.float32)
 x_test_scaled = scaler.fit_transform(x_test).astype(np.float32)
 
 # split train data into train/validation datasets
-x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.2, stratify=y_train, random_state=12)
-print('train  :', x_train_scaled.shape, y_train.shape)
-print('val : ', x_val.shape, y_val.shape)
-print('test :', x_test_scaled.shape, y_test.shape)
+x_train_part, x_val, y_train_part, y_val = train_test_split(x_train_scaled, y_train, test_size=0.2, stratify=y_train, random_state=12)
+print('train  :', x_train_part.shape, y_train_part.shape)   # (3637, 12) (3637,) => x는 2차원, y는 1차원
+print('val : ', x_val.shape, y_val.shape)                   # (910, 12) (910,)
+print('test :', x_test_scaled.shape, y_test.shape)          # (1950, 12) (1950,)
 
+print()
+# ndarray -> tensor로 변환
+x_train_tensor = torch.tensor(x_train_part, dtype=torch.float32)
+y_train_tensor = torch.tensor(y_train_part.reshape(-1,1), dtype=torch.float32) # x, y의 차원이 다르므로 y를 2차원으로 바꿔줌
+# y_train_tensor = torch.tensor(y_train_part, dtype=torch.float32).view(-1,1) 위와 동일
+
+x_val_tensor = torch.tensor(x_val, dtype=torch.float32)
+y_val_tensor = torch.tensor(y_val.reshape(-1,1), dtype=torch.float32)
+
+x_test_tensor = torch.tensor(x_test_scaled, dtype=torch.float32)
+y_test_tensor = torch.tensor(y_test.reshape(-1,1), dtype=torch.float32)
+
+# 미니배치 처리 : DataLoader 생성
+train_dataset = TensorDataset(x_train_tensor, y_train_tensor)
+train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+
+# 모델 정의
+class WineClassfier(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.net = nn.Sequential(
+            nn.Linear(12, 32),
+            nn.ReLU(),
+
+            nn.Linear(32, 24),
+            nn.ReLU(),
+
+            nn.Linear(24, 8),
+            nn.ReLU(),
+
+            nn.Linear(8, 1)
+            # nn.Sigmoid()    손실함수로 nn.BCEWithLogitsLoss()를 사용할 경우, 시그모이드 생략
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+# cuda는 gpu
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print('사용장치 : ', device)
+model = WineClassfier().to(device=device)
+print(model)
+
+# criterion = nn.BCELoss()을 사용하면 net에 nn.Sigmoid()를 써줘야하지만,
+criterion = nn.BCEWithLogitsLoss()  # 내부적으로 Sigmoid + BinaryCrossEnthropy를 한꺼번에 처리
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+def evaluate_modelFunc(model, x_data, y_data):
+    model.eval()
+    x_data = x_data.to(device)
+    y_data = y_data.to(device)
+
+    with torch.no_grad():
+        logits = model(x_data)
+        loss = criterion(logits, y_data).item()
+
+        # logits -> sigmoid (확률) -> 0, 1
+        prob = torch.sigmoid(logits)
+        pred = (prob >= 0.5).float()   # True : 1, Fales : 0
+        acc = (pred == y_data).float().mean().item()
+
+    return loss, acc
+
+# 참고로 훈련되지 않은 모델의 정확도를 먼저 확인
+train_loss_before, train_acc_before = evaluate_modelFunc(model, x_train_tensor, y_train_tensor)
+print(f'훈련되지 않은 모델의 정확도 : {train_acc_before * 100:.2f}%')   # 75.39%
+
+# 조기종료 + 모델 저장 준비 작업
+patience = 5
+best_val_loss = np.inf
+patience_count = 0
+
+MODEL_DIR = './winemodel/'
+if not os.path.exists(MODEL_DIR):
+    os.makedirs(MODEL_DIR)
+
+modelpath = './winemodel/winemodel_torch.pth'
+
+# 모델 학습
+EPOCHS = 5000
+history = {
+    'loss':[],
+    'accuracy':[],
+    'val_loss':[],
+    'val_accuracy':[]
+}
+
+for epoch in range(EPOCHS):
+    model.train()
+    train_loss_sum = 0
+    train_correct = 0
+    train_total = 0
+
+    for batch_x, batch_y in train_loader:
+        batch_x = batch_x.to(device)
+        batch_y = batch_y.to(device)
+
+        logits = model(batch_x)     # 예측값 계산
+        loss = criterion(logits, batch_y)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        train_loss_sum += loss.item() * batch_x.size(0)
+
+        prob = torch.sigmoid(logits)    # logits을 0에서 1사이의 값으로 바꿔줌, accuracy 계산
+        pred = (prob >= 0.5).float()
+
+        train_correct += (pred == batch_y).sum().item()
+
+        train_total += batch_y.size(0)  # 64 또는 53이 됨.
+
+    # epoch 단위 train loss / accuracy 계산
+    train_loss = train_loss_sum / train_total
+    train_acc = train_correct / train_total
+
+    # validation 평가
+    val_loss, val_acc = evaluate_modelFunc(model, x_val_tensor, y_val_tensor)
+
+    history['loss'].append(train_loss)
+    history['accuracy'].append(train_acc)
+    history['val_loss'].append(val_loss)
+    history['val_accuracy'].append(val_acc)
+
+    print(
+        f'Epoch [{epoch + 1} / {EPOCHS}]'
+        f'loss:{train_loss:.4f}'
+        f'accuracy:{train_acc:.4f}'
+        f'val_loss:{val_loss:.4f}'
+        f'val_accuracy:{val_acc:.4f}'
+        )
+
+    # 최고의 모델 저장
+    if val_loss < best_val_loss:    # 검증 손실이 개선된 경우
+        best_val_loss = val_loss
+        patience_count = 0
+
+        # 최적 모델의 파라미터 저장
+        torch.save(model.state_dict(), modelpath)
+        print(f'최적 모델 저장 : {epoch + 1}, val_loss:{best_val_loss:.5f}')
+
+    else:
+        patience_count += 1
+        
+    # 조기 종료 : patience 횟수만큼 val_loss가 개선되지 않으면 조기 종료
+    if patience_count >= patience:
+        print(f'조기 종료 발생 : {epoch+1} 번에서 학습 중단')
+        break
+
+print('\n학습완료 --- ')
+print('전체 학습 횟수 : ', len(history['loss']))
+print('최적 학습 횟수 : ', np.argmin(history['loss']) + 1)  # np.argmin() : 배열에서 최솟값이 위치한 인덱스를 반환
+print('최소 검증 손실 : ', best_val_loss)
+
+# 저장된 최적 모델 읽기
+best_model = WineClassfier().to(device=device)
+best_model.load_state_dict(torch.load(modelpath, map_location=device))
+
+best_model.eval()
+# test data로 모델 평가
+test_loss, test_acc = evaluate_modelFunc(best_model, x_test_tensor, y_test_tensor)
+print(f'훈련된 모델의 정확도 : {test_acc * 100:.2f}%')   # 99.13%
+
+# 시각화 - loss
+epoch_len = np.arange(len(history['loss']))
+
+plt.figure(figsize=(8,5))
+plt.plot(epoch_len, history['val_loss'], c='red', label='val_loss')
+plt.plot(epoch_len, history['loss'], c='blue', label='loss')
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.legend()
+plt.grid()
+plt.show()
+
+# 시각화 - accuracy
+plt.figure(figsize=(8,5))
+plt.plot(epoch_len, history['val_accuracy'], c='red', label='val_accuracy')
+plt.plot(epoch_len, history['accuracy'], c='blue', label='accuracy')
+plt.xlabel('epochs')
+plt.ylabel('accuracy')
+plt.legend()
+plt.grid()
+plt.show()
+
+# 저장된 모델로 예측
+new_data = x_test[:5, :]
+print('원본 데이터 : ', new_data)
+
+# 스케일링 -> 텐서화
+new_data_scaled = scaler.fit_transform(new_data).astype(np.float32)
+new_data_tensor = torch.tensor(new_data_scaled, dtype=torch.float32).to(device)
+
+with torch.no_grad():
+    logits = best_model(new_data_tensor)
+    new_prob = torch.sigmoid(logits)    # logits을 확률로 변환 (0 ~ 1 사이의 실수)
+
+    new_pred = (new_prob >= 0.5).float()
+
+print('예측 확률 : ', new_prob.cpu().numpy().ravel())
+print('예측 결과 : ', new_pred.cpu().numpy().ravel())
+print('실제값 : ', y_test[:5].astype(int))
